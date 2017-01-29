@@ -1,0 +1,3 @@
+[submodule "ysvb-bug-proof"]
+	path = ysvb-bug-proof
+	url = https://github.com/Yuri-SVB/ysvb-bug-proof
