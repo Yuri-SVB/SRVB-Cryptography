@@ -15,9 +15,9 @@ SRVB cryptosystem is an asymmetric cryptography created by Daniel Santana Rocha 
 
 Our project (as any cryptosystem project does) consists in three programs:
 
-1. The key generating program, contained in the directory 'key_gen';
-2. The encrypting program, contained in the directory 'encryption';
-3. The decrypting program, contained in the directory 'decryption';
+1. The key generating program, contained in the directory `key_gen`;
+2. The encrypting program, contained in the directory `encryption`;
+3. The decrypting program, contained in the directory `decryption`;
 
 In each case, run the script `make.sh` of the respective directory, and run the resulting executable file with the indicated arguments. Advanced users are encouraged to look into those scripts for customized options on how much logging to see, whether or not activate debug mode, and choose the source of randomness for your key generation and encryption. If you want to get your hands really dirty, and have command on C++. you can also edit the files of the directory `random_input` in your own _secret_ way, thus making one additional layer of uncertainty for any attacker.
 
