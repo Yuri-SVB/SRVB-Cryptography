@@ -1,119 +1,112 @@
 # SRVB-Cryptography
-Asymmetric Encription Algorithm by Daniel SANTANA ROCHA and Yuri da Silva VILLAS BOAS based on complex integers
+[Asymmetric Cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography) by [Daniel SANTANA ROCHA](https://www.linkedin.com/in/daniel-santana-rocha-48800439/) and [Yuri da Silva VILLAS BOAS](https://sites.google.com/site/yurisvillasboas/) based on [Gaussian primes](https://en.wikipedia.org/wiki/Gaussian_integer#Gaussian_primes)
 
 
-		Welcome to SRVB CryptoSystem!
+## Welcome to SRVB CryptoSystem!
 
-First of all, thank you for your attention, interest, and trust!
+###### First of all, thank you for your attention, interest, and trust!
 
-SRVB cryptosystem is an asymmetric cryptography created by Daniel Santana Rocha and co-authored and implemented by Yuri da Silva Villas Boas. Our cryptosystem is sure to be Simple and Free, and, by disclosing it to as many people as possible and contributing to our campaign
-
-	https://srvbblog.wordpress.com/	
-
-we may confirm it is indeed the first cryptosystem ever created to be at the same time, Simple, Free AND Reliable. We strongly recommend you to check out that site, for it has very enjoyable media and sales. If you are lay on this subject, it is also an interesting way to get to know a little bit about cryptography. If, on the other hand, you are not so lay, you might be interested on our paper explaining how does SRVB cryptography work on details.
+SRVB cryptosystem is an asymmetric cryptography created by Daniel Santana Rocha and co-authored and implemented by Yuri da Silva Villas Boas. Our cryptosystem is sure to be _Simple_ and _Free_, and, by disclosing it to as many people as possible and contributing to [our campaign](https://srvbblog.wordpress.com/), we may confirm it is indeed the first cryptosystem ever created to be at the same time, _Simple, Free AND Reliable_. We strongly recommend you to check out that site, for it has very enjoyable media and sales. If you are lay on this subject, it is also an interesting way to get to know a little bit about cryptography. If, on the other hand, you are not so lay, you might be interested on our [paper](https://srvbblog.wordpress.com/how-does-it-work/) explaining how does SRVB cryptography work on details.
 
 
-		OUR SOFTWARE:
+## OUR SOFTWARE:
 
-	WHAT DOES IT HAVE?
+### WHAT DOES IT HAVE?
 
 Our project (as any cryptosystem project does) consists in three programs:
 
-1) The Key generating program, contained in the directory 'key_gen';
-2) The Encrypting program, contained in the directory 'encryption';
-3) The Decrypting program, contained in the directory 'decryption';
+1. The Key generating program, contained in the directory 'key_gen';
+2. The Encrypting program, contained in the directory 'encryption';
+3. The Decrypting program, contained in the directory 'decryption';
 
 In each case, run the script 'make.sh' of the respective directory, and run the resulting executable file with the indicated arguments.
 
-		HOW TO USE IT?
+### HOW TO USE IT?
 
-	1) TO GENERATE A PAIR OF SRVB KEYS...
+#### 1. TO GENERATE A PAIR OF SRVB KEYS...
 
-named 'NAME_pri_key.srvb' and 'NAME_pub_key.srvb' and whose blocks have b BITS (not bytes!), of which, p BITS (same) are random padding, run the executable key_gen_SRVB (resulting from the script ./key_gen/make.sh) with the arguments, k, m, p and 'NAME', in this order, where k and m are any positive integer numbers whose product equals b, and 'NAME', is of course, the string you want to be the name of the keys' files. The typical command would look like this:
+named `NAME_pri_key.srvb` and `NAME_pub_key.srvb` and whose blocks have `b` BITS (not ~~bytes~~!), of which, `p` BITS (same) are random padding, run the executable `key_gen_SRVB` (resulting from the script `key_gen/make.sh`) with the arguments, `k`, `m`, `p` and `NAME`, in this order, where `k` and `m` are any positive integer numbers whose product equals `b`, and `NAME`, is of course, the string you want to be the name of the keys' files. The typical command would look like this:
 
-	./key_gen_SRVB 32 512 8192 /path/to/John/Smith's/SRVB/John_Smith_2017_JAN
+`./key_gen_SRVB 32 512 8192 /path/to/John/Smith's/SRVB/John_Smith_2017_JAN`
 
-Where the terminal is supposed to be at the key_gen directory (alternatively, you can, of course, append a relative or absolute path to this file on the the left of its name from else where), and '/path/to/John/Smith's/SRVB/' is to be substituted by any relative or absolute path to the target directory of the resulting pair (conversely, you can, of course, choose to manually move it after having outputted it to the current working directory, in which case, no path is to be added). As a result of successfully running it, you shall see two files in the target directory, namely;
+Where the terminal is supposed to be at the key_gen directory (alternatively, you can, of course, append a relative or absolute path to this file on the the left of its name from else where), and `/path/to/John/Smith's/SRVB/` is to be substituted by any relative or absolute path to the target directory of the resulting pair (conversely, you can, of course, choose to manually move it after having outputted it to the current working directory, in which case, no path is to be added). As a result of successfully running it, you shall see two files in the target directory, namely;
 
-	John_Smith_2017_JAN_pub_key.srvb, and
-	John_Smith_2017_JAN_pri_key.srvb
+`John_Smith_2017_JAN_pub_key.srvb`, and
 
-that correspond respectively to the input files of the PRIVATE and PUBLIC keys, that are to be passed as arguments respectively to the ENCRYPTION and DECRYPTION programs.
+`John_Smith_2017_JAN_pri_key.srvb`
 
-
-	2) TO ENCRYPT A FILE...
-
-named 'SECRET_FILE' into another file named 'ENCRYPTED_SECRET_FILE', through a (necessarily) PUBLIC key named, say, John_Smith_2017_JAN_pub_key.srvb, located at, say, /path/to/John/Smith's/SRVB/ directory, change the working directory to the 'encrypt' folder of the project directory (or, like in the previous case, append adequate paths to the files) and run 
-
-	./encrypt_SRVB /path/to/John/Smith's/SRVB/John_Smith_2017_JAN_pub_key.srvb SECRET_FILE ENCRYPTED_SECRET_FILE
-
-The resulting encryption file, named 'ENCRYPTED_SECRET_FILE' will be then generated at the working directory (unless, like in the previous case, you append a path to it).
+that correspond respectively to the input files of the PUBLIC and PRIVATE keys, that are to be passed as arguments respectively to the ENCRYPTION and DECRYPTION programs.
 
 
-	3) TO DECRYPT A FILE...
+#### 2. TO ENCRYPT A FILE...
 
-named, say, 'ENCRYPTED_SECRET_FILE' into another file named 'DECRYPTED_SECRET_FILE', through a (necessarily) PRIVATE key (necessarily correspondent to that [necessarily] PUBLIC one used to encrypt the original SECRET_FILE in the first place) named, say, John_Smith_2017_JAN_pri_key.srvb, located at, say, /path/to/John/Smith's/SRVB/ directory, change the working directory to the 'decrypt' folder of the project directory (or, like in the previous case, append adequate paths to the files) and run 
+named `SECRET_FILE` into another file named `ENCRYPTED_SECRET_FILE`, through a (necessarily) PUBLIC key named, say, `John_Smith_2017_JAN_pub_key.srvb`, located at, say, `/path/to/John/Smith's/SRVB/` directory, change the working directory to the `encrypt` folder of the project directory (or, like in the previous case, append adequate paths to the files) and run 
 
-	./decrypt_SRVB /path/to/John/Smith's/SRVB/John_Smith_2017_JAN_pri_key.srvb ENCRYPTED_SECRET_FILE DECRYPTED_SECRET_FILE
+`./encrypt_SRVB /path/to/John/Smith's/SRVB/John_Smith_2017_JAN_pub_key.srvb SECRET_FILE ENCRYPTED_SECRET_FILE`
 
-The resulting decryption file, named 'DECRYPTED_SECRET_FILE' will be then generated at the working directory (unless, like in the previous case, you append a path to the file's name).
+The resulting encryption file, named `ENCRYPTED_SECRET_FILE` will be then generated at the working directory (unless, like in the previous case, you append a path to it).
+
+
+#### 3. TO DECRYPT A FILE...
+
+named, say, `ENCRYPTED_SECRET_FILE` into another file named `DECRYPTED_SECRET_FILE`, through a (necessarily) PRIVATE key (necessarily correspondent to that [necessarily] PUBLIC one used to encrypt the original `SECRET_FILE` in the first place) named, say, `John_Smith_2017_JAN_pri_key.srvb`, located at, say, `/path/to/John/Smith's/SRVB/` directory, change the working directory to the `decrypt'`folder of the project directory (or, like in the previous case, append adequate paths to the files) and run 
+
+`./decrypt_SRVB /path/to/John/Smith's/SRVB/John_Smith_2017_JAN_pri_key.srvb ENCRYPTED_SECRET_FILE DECRYPTED_SECRET_FILE`
+
+The resulting decryption file (equal to the last bit to the original `SECRET_FILE`) named `DECRYPTED_SECRET_FILE` will be then generated at the working directory (unless, like in the previous case, you append a path to the file's name).
 
 So, we are done! Share this with your friends, send them a good PUBLIC key, and use your PRIVATE key to decrypt the messages they send you.
 
 
-	CONSTRAINT:
+#### CONSTRAINT:
 
-b and p must satisfy b > p >= 0 and both be integer multiples of 8 (number of bits of a byte), though this last constraint is due just to a technicality that provided more easiness of implementation and possibly will be dropped in future versions.
+`b` and `p` must satisfy `b > p >= 0` and both be integer __multiples of 8__ (number of bits of a byte), though this last constraint is due just to a technicality that provided more easiness of implementation and possibly will be dropped in future versions.
 
 
-		RECOMMENDATIONS
+### RECOMMENDATIONS
 
-	PREAMBLE
+#### PREAMBLE
 
-Before you start, it is important to recommend generate, store and manipulate any sensible information in secure medias. We recommend you to use encrypted HD partitions, and external medias like (preferably) DVDs to store private keys and sensible files. If you eventually copy any of those to insecure media, make sure you delete them *in a way it is impossible to recover*.
+Before you start, it is important to recommend generate, store and manipulate any sensible information in secure medias. We recommend you to use encrypted HD partitions, and external medias like (preferably) DVDs to store private keys and sensible files. If you eventually make a _temporary_ copy any of those to insecure media, make sure you delete them [_in a way it is impossible to recover_](http://askubuntu.com/questions/57572/how-to-delete-files-in-secure-manner).
 
-In the case of key generation and encryption, it is good to use a TRUE RANDOM input that, of course, does NOT pass through an insecure channel or comes from an untrusted source (such as https://www.random.org/).
+In the case of key generation and encryption, it is good to use a [TRUE RANDOM](https://en.wikipedia.org/wiki/Random_number_generation#.22True.22_vs._pseudo-random_numbers) or [CRYPTOGRAPHY PSEUDO RANDOM](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator) input that, of course, does __NOT__ ~~pass through an insecure channel~~ or ~~comes from an untrusted source (such as https://www.random.org/~~ [nothing personal, fellows, I hope you understand us]).
 
-Keep in mind that the, as well as what happens to chains, what matters to improve a security system is to strengthen its weakest link, and the weakest link of any good information security system usually is the human component. Problems like corruption, threats, physical theft of information storage devices, forgetting to log out, dummy passwords, human error, etc. can jeopardize your secrecy independently of how good a cryptosystem per se is.
+Keep in mind that the, as well as what happens to chains, _what matters to improve a security system is to strengthen its weakest link_, and the weakest link of any good information security system usually is the _human component_. Problems like corruption, threats, physical theft of information storage devices, ~~leaving one's own work station logged on~~, [weak passwords](https://en.wikipedia.org/wiki/Password_strength#Human-generated_passwords), human error, etc. can jeopardize your secrecy independently of how good a cryptosystem per se is.
 
-	PARAMETERS
+#### PARAMETERS
 
-The block size 'b' (where b = k*m, just remembering) must be as high as to make any 'dictionary attack' to be unfeasible, and for that b > 100 (ie, highre than 103, for b has to be multiple of 8) would already be more than enough. In order to also make the key itself resistent, we recommend take (2*m+8*k) at least as high as 1024 (benchmark to RSA).
+The block size `b` (where `b = k*m`, just remembering) must be as high as to make any _dictionary attack_ to be unfeasible, and for that `b > 100` (_ie_, higher than 103, since b has to be multiple of 8) would already be more than enough. In order to also make the key itself resistent, we recommend take `(2*m+8*k)` at least as high as __1024__ (benchmark to [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))).
 
-If you think your original message can be guessed (example: the copy of any content that had already been published, or a text, or the result of a simple use of a published template), then you should worry about the so called 'known message attack'. Thankfully for you, we have already implemented the solution for you, which is to set the parameter p to a number as high as what b was explained to need to be in the previous paragraph (ie, higher than 103). Why? p is the number of extra BITS that are randomly set to each block, thus adding to each block a content that can't be to guessed (specially if you use a true random source, as explained two paragraphs above). Since any block can only possibly broken all together, adding those extra dummy bits makes it harder for the actual data to be inapropriately achieved. Check out the excerpts of the source code that relate to the padding and/or read about *invertible cryptographic hash functions* to know more about it. Anyway, it suffices to know that increasing p is a trade off between increasing bits of uncertainty (for the attacker) and the cost computational cost and resulting file's size, both by a factor of b/(b-p).
+If you think your original message can be _guessed_ (example: the copy of any content that had already been published, a text, or the result of a simple use of a published template), then you should worry about the so called _known message attack_. Fortunately for you, we have already implemented the solution for you, which is to set the parameter `p` to a number as high as what `b` was explained to need to be in the previous paragraph (_ie_, higher than 103). Why? `p` is the number of extra BITS that are randomly set to each block, thus adding to each block a content that can't be to guessed (specially if you use a _true random_ source, as explained two paragraphs above). Since any block can only possibly broken all together, adding those extra dummy bits makes it harder for the actual data to be inapropriately achieved. Check out the excerpts of the source code that relate to the padding and/or read about invertible cryptographic [hash functions](https://en.wikipedia.org/wiki/Hash_function) to know more about it. Anyway, it suffices to know that increasing `p` is a trade off between increasing the [entropy](https://en.wikipedia.org/wiki/Entropy_(computing) (number of independent unknown bits) of the block and increasing the encryption's computational cost and resulting file's size, all by a factor of `b/(b-p)`.
 
-If your file is sure to be a original and unpublished content, but is in a format that leads it to be unbalanced on the number of 1's and 0's (example, an image file with a big portion of black, depending on its format), it might be interesting to set p to a ratio of b, just to ensure that the padding resulting message will be balanced on the quantity of ones and zeroes. If you set p = p/2, for instance, you guarantee that, your distribution of quantity of 0's and 1's will be close to the normal (technically speaking, close to binomial of parameters 1/2 and b).
+If your file is sure to be a original and unpublished content (like a secret video or audio), but is in a format that leads it to be unbalanced on the number of zeroes and ones. Example, an image file with big portions of black, depending on its format, in which case, the blocks encoding that portions would have lower entropy anyway, moreover, a ratio of the number of zeroes to number of ones that is too far from uniformity in a given block can be detected. It might be interesting to set `p` to a ratio of `b`, just to ensure that the padding resulting message will be balanced on the quantity of ones and zeroes. If you set `p = b/2`, for instance, you guarantee that your entropy will be at least as high as the size of your actual data, and that a significant deviation from 1 to 1 in the zeroes to ones ratio will be virtually impossible to observe.
 
-The prime Gaussian integer alpha that each SRVB private key depends on is higher than 2^(2*m+8*k). Where k and m are the key parameters explained above. We recommend the exponent expression to be at least 1024.
+The modulus of the prime Gaussian integer `alpha` that each SRVB private key depends on is higher than `2^(2*m+8*k)`. Where `k` and `m` are the key parameters explained above. We recommend the exponent expression to be at least 1024.
 
-	IN A NUTSHELL
+#### IN A NUTSHELL
 
-Make sure that (2*m+8*k) is at least 1024;
-Set p to at least 128 to avoid 'known message attack' or;
-Set p to a reasonable ratio of b ensure the bit balancing;
+* Make sure that `(2*m+8*k)` is at least 1024;
+* Set p to at least 128 to avoid 'known message attack' or;
+* Set p to a reasonable ratio of b ensure the bit balancing;
 
-If you are unsure about all that, and/or prefer to play safe, just take k = 32, m = 512, p = 8192. That is *very* safe in any reasonable (and some unreasonable) aspects. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you understand and take all the precautions mentioned in the PREAMBLE.
+If you are unsure about all that, and/or prefer to play safe, just take `k = 32, m = 512, p = 8192`. That is *very* safe in any reasonable (and some unreasonable) aspects. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you understand and take all the precautions mentioned in the PREAMBLE.
 
 Above all, never forget that the PRIVATE key is produced and ALWAYS kept OFFLINE, and its correspondent PUBLIC key ALONE is to be published.
 
 
-		HOW EFFECTIVE IS OUR SYSTEM?
+### HOW EFFECTIVE IS OUR SYSTEM?
 
-	THE BLOCKS
+#### THE BLOCKS
 
-As a rough approximation, we suggest you to consider a domestic computer capable of performing 2^10 trials per second (which is clearly an overstatement), and a supercomputer to be 2^30 times more powerful. Consider that an year has about 33 million seconds which is roughly 2^25 seconds. So far, we have 65 bits required for a block to resist a brute force attack for about, on average, 1 year in a very pessimistic scenario (in which a top supercomputer is 100% dedicated full time to break a block for as long as one year). Yet, as we said, we can very easily reach a standard as high as 2 Kbyte, making 8192 bits for actual data plus 8192 more bits of padding (ie, bits that are uniformely distributed, so not to be possible to reduce by means of guessing provided that a true random input is used for them), so we can safely say that our data blocks are immune to any brute force attack.
+As a rough approximation, we suggest you to consider a domestic computer capable of performing 2^10 trials per second (which is clearly an overstatement), and a supercomputer to be 2^30 times more powerful. Consider that an year has about 33 million seconds which is roughly 2^25 seconds. So far, we have 65 bits required for a block to resist a brute force attack for about, on average, 1 year in a very pessimistic scenario (in which a top supercomputer is 100% dedicated full time to break a block for as long as one year). Yet, as we said, we can very easily reach a standard as high as 2 Kbyte, making 8192 bits for actual data plus 8192 more bits of padding (ie, bits that are uniformely distributed, so not to be possible to reduce by means of guessing provided that a true random input is used for them), so we can safely say that, under our recommendations, an SRVB data block is _immune to any brute force attack_.
 
-	THE KEYS
+#### THE KEYS
 
-While the prime Gaussian integers, which SRVB keys depends on, are far more abundant and less studied than real integer primes, RSA relies on the latter, and yet, a prime as big as one having 1024 (binary) digits is considered to be a satisfactory one. Thus, a good benchmark would be to set the parameters k and m in such a way that (2*m + 8*k) + 8 is at least as 1024. Keep in mind that you can easily (and freely!) set them to much higher levels, and on the top of using a number that is much harder to guess, you are also saving at least one euro each time you use it,
+While the prime Gaussian integers, which SRVB keys depends on, are far more abundant and less studied than real integer primes, RSA relies on the latter, and yet, a prime as big as one having 1024 (binary) digits is considered to be a satisfactory one. Thus, a good benchmark would be to set the parameters k and m in such a way that `(2*m + 8*k)` is at least as 1024. Keep in mind that you can easily (and freely!) set them to much higher levels, and on the top of using a number that is much harder to guess, you are also [saving at least one euro](http://www.mappamathics.com/) each time you use it, not to mention the *human risk* involved in involving someone else (_ie_ the seller of this prime number) in your secrets (the very primes that are supposed to be known by you alone) and (not to mention risk of the remittance of this prime to be bugged). In other words, how to actually trust your key maker and your key sender? If you are able to _and with SRVB you are_ avoid this problem at all by making your own keys yourself!
 
-see http://www.mappamathics.com/
+### DEPENDENCIES:
 
-not to mention the *human risk* involved in involving someone else (ie.: the seller of this prime number) in your secrets (the very primes that are supposed to be known by you alone) and sending the key to you. In other words, how to actually trust your key maker and your key sender? If you are able to _and with SRVB you are_ avoid this problem at all by making your own keys yourself!
-
-		DEPENDENCIES:
-
-	GMP
+#### GMP
 
 In this version, the project uses GNU Multiple Precision
 
@@ -122,17 +115,16 @@ In this version, the project uses GNU Multiple Precision
 to represent big integers. Make sure to follow the steps indicated in the site above in order to have it installed in your system.
 
 
-	YSVB BUG PROOF
+#### YSVB BUG PROOF
 
 If your downloaded project does not contain a directory named 'ysvb-bug-proof', enter the following command 
 
-	git submodule update --init --recursive
+`git submodule update --init --recursive`
 
 in the project's directory. Alternatively, you also can get it downloaded all at once by entering
+	
+`git clone --recursive https://github.com/Yuri-SVB/ysvb-bug-proof`
 
-	git clone --recursive https://github.com/Yuri-SVB/ysvb-bug-proof
+### SAMPLES:
 
-
-		SAMPLES:
-
-Our project already comes with pairs of keys and sample files to be (en/de)crypted. They are located at subdirectories called 'lab', within the directories encrypt and decrypt.
+Our project already comes with pairs of keys and sample files to be (en/de)crypted. They are located at subdirectories called `lab`, within the directories encrypt and decrypt.
