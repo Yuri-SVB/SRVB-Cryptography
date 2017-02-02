@@ -15,11 +15,12 @@ SRVB cryptosystem is an asymmetric cryptography created by Daniel Santana Rocha 
 
 Our project (as any cryptosystem project does) consists in three programs:
 
-1. The Key generating program, contained in the directory 'key_gen';
-2. The Encrypting program, contained in the directory 'encryption';
-3. The Decrypting program, contained in the directory 'decryption';
+1. The key generating program, contained in the directory `key_gen`;
+2. The encrypting program, contained in the directory `encryption`;
+3. The decrypting program, contained in the directory `decryption`;
 
-In each case, run the script 'make.sh' of the respective directory, and run the resulting executable file with the indicated arguments.
+In each case, run the script `make.sh` of the respective directory, and run the resulting executable file with the indicated arguments. Advanced users are encouraged to look into those scripts for customized options on how much logging to see, whether or not activate debug mode, and choose the source of randomness for your key generation and encryption. If you want to get your hands really dirty, and have command on C++. you can also edit the files of the directory `random_input` in your own _secret_ way, thus making one additional layer of uncertainty for any attacker.
+
 
 ### HOW TO USE IT?
 
@@ -71,7 +72,7 @@ Before you start, it is important to recommend generate, store and manipulate an
 
 In the case of key generation and encryption, it is good to use a [TRUE RANDOM](https://en.wikipedia.org/wiki/Random_number_generation#.22True.22_vs._pseudo-random_numbers) or [CRYPTOGRAPHY PSEUDO RANDOM](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator) input that, of course, does __NOT__ ~~pass through an insecure channel~~ or ~~comes from an untrusted source (such as https://www.random.org/~~ [nothing personal, fellows, I hope you understand us]).
 
-Keep in mind that the, as well as what happens to chains, _what matters to improve a security system is to strengthen its weakest link_, and the weakest link of any good information security system usually is the _human component_. Problems like corruption, threats, physical theft of information storage devices, ~~leaving one's own work station logged on~~, [weak passwords](https://en.wikipedia.org/wiki/Password_strength#Human-generated_passwords), human error, etc. can jeopardize your secrecy independently of how good a cryptosystem per se is.
+Keep in mind that the, as well as what happens to chains, _what matters to improve a security system is to strengthen its weakest link_, and the weakest link of any good information security system usually is the _human component_. Problems like corruption, threats, physical theft of information storage devices, ~~leaving one's own work station logged on~~, ~~[weak passwords](https://en.wikipedia.org/wiki/Password_strength#Human-generated_passwords)~~, human error, etc. can jeopardize the secrecy of your informations independently of how good a cryptosystem per se is.
 
 #### PARAMETERS
 
@@ -89,9 +90,9 @@ The modulus of the prime Gaussian integer `alpha` that each SRVB private key dep
 * Set p to at least 128 to avoid 'known message attack' or;
 * Set p to a reasonable ratio of b ensure the bit balancing;
 
-If you are unsure about all that, and/or prefer to play safe, just take `k = 32, m = 512, p = 8192`. That is *very* safe in any reasonable (and some unreasonable) aspects. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you understand and take all the precautions mentioned in the PREAMBLE.
+If you are unsure about all that, and/or prefer to play safe, just take `k = 32, m = 512, p = 8192`. That is *very* safe in any reasonable (and some unreasonable) aspects. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you fully understand and take all the precautions mentioned in the PREAMBLE. Remember: _as well as in a chain, the strength of a cryptosystem equals the strength of its weakest components_.
 
-Above all, never forget that the PRIVATE key is produced and ALWAYS kept OFFLINE, and its correspondent PUBLIC key ALONE is to be published.
+Above all, never forget that the PRIVATE key is produced and ALWAYS kept OFFLINE in a well secure media, and its correspondent PUBLIC key ALONE is to be published.
 
 
 ### HOW EFFECTIVE IS OUR SYSTEM?
