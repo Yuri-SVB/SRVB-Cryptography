@@ -11,6 +11,7 @@
 #-I ../random_input/std/user_seed/		\
 #-I ../random_input/std/random_device/	\
 #-I ../random_input/std/pseudo_random	\
+#-I ../random_input/std/3_layers		\
 	
 	#in order to choose for different sources of random input. In the
 	#1st, you will be asked to enter a string of random characters of your keyboard.
@@ -26,7 +27,7 @@ g++ main.cpp								\
  	-D __SHOW__								\
  	-D __PUT__								\
  	-lgmpxx -lgmp -lm						\
- 	-I ../random_input/std/user_seed/		\
+ 	-I ../random_input/std/3_layers/		\
  	-I ../ysvb-bug-proof/					\
  	-I ../integers/							\
  	-std=gnu++11							\
