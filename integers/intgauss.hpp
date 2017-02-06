@@ -52,8 +52,7 @@ static	GaussInt<GID>  itopower	   (int exp);
 	}
 	friend std::istream& operator >> (std::istream& is, GaussInt<GID>& gi) {
 		GID	real, imag;
-		if (is) {	is >> real;	}
-		if (is) {	is >> imag;	}
+		is >> real >> imag;
 		gi = GaussInt(real, imag);
 		return is;
 	}

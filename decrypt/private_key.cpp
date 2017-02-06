@@ -252,7 +252,7 @@ Pub_Key	Pri_Key::get_Public() const {
 std::string	Pri_Key::summary() const {
 	std::stringstream ret;
 	ret << std::endl;
-	ret << "NAME            = " << _name << "_pub" << std::endl;
+	ret << "NAME            = " << _name << "_pri" << std::endl;
 	ret << "K               = " << _k << std::endl;
 	ret << "M               = " << _m << std::endl;
 	ret << "P               = " << _p << std::endl;
@@ -273,9 +273,9 @@ std::istream& operator >> (std::istream& key_file, Pri_Key& PRIVATE_KEY) {
 			line.find('#') != std::string::npos;
 			std::getline(key_file, line)
 		) {}
-		std::getline(key_file, line);
 		name = line.substr(0,line.rfind("_pri"));
 
+		std::getline(key_file, line);
 		k = stoi(line);
 
 		std::getline(key_file, line);
