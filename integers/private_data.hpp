@@ -71,7 +71,7 @@ public:
 		if (is.gcount() != buffer_size) {
 			YSVB_CHECK_1(is.gcount(), <, buffer_size, "Would not make any sense to be greater.")
 			for (
-				buffer[i = is.gcount()] = holder = (i?buffer[i-1]:tpd.get_lb()), i++;
+				i = is.gcount(), buffer[i] = holder = (i?buffer[i-1]:tpd.get_lb()), i++;
 				i < buffer_size;
 				i++
 			) {
