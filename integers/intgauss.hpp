@@ -47,7 +47,7 @@ static	GaussInt<GID>  itopower	   (int exp);
 		bool		   operator == (const GaussInt<GID>& target) const;
 		bool		   operator != (const GaussInt<GID>& target) const;
 	std::string print_me() const {
-		std::string ret = gi.r + std::string(gi.i>=0?" +":" ") + gi.i + "*i";
+		std::string ret = r + std::string(i>=0?" +":" ") + i + "*i";
 		return ret;
 	}
 	friend std::istream& operator >> (std::istream& is, GaussInt<GID>& gi) {
