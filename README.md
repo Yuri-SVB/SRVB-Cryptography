@@ -1,5 +1,5 @@
 # SRVB-Cryptography
-[Asymmetric Cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography) by [Daniel SANTANA ROCHA](https://www.linkedin.com/in/daniel-santana-rocha-48800439/) and [Yuri da Silva VILLAS BOAS](https://sites.google.com/site/yurisvillasboas/) based on [Gaussian primes](https://en.wikipedia.org/wiki/Gaussian_integer#Gaussian_primes)
+[Asymmetric Cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography) by [Daniel SANTANA ROCHA](https://www.linkedin.com/in/daniel-santana-rocha-48800439/) and [Yuri da Silva VILLAS BOAS](https://sites.google.com/site/yurisvillasboas/) based on [Quotient Rings of Gaussian Integers](http://math.stackexchange.com/questions/23358/quotient-ring-of-gaussian-integers)
 
 
 ## Welcome to SRVB CryptoSystem!
@@ -82,7 +82,7 @@ If you think your original message can be _guessed_ (example: the copy of any co
 
 If your file is sure to be a original and unpublished content (like a secret video or audio), but is in a format that leads it to be unbalanced on the number of zeroes and ones. Example, an image file with big portions of black, depending on its format, in which case, the blocks encoding that portions would have lower entropy anyway, moreover, a ratio of the number of zeroes to number of ones that is too far from uniformity in a given block can be detected. It might be interesting to set `p` to a ratio of `b`, just to ensure that the padding resulting message will be balanced on the quantity of ones and zeroes. If you set `p = b/2`, for instance, you guarantee that your entropy will be at least as high as the size of your actual data, and that a significant deviation from 1 to 1 in the zeroes to ones ratio will be virtually impossible to observe.
 
-The modulus of the prime Gaussian integer `alpha` that each SRVB private key depends on is higher than `2^(2*m+8*k)`. Where `k` and `m` are the key parameters explained above. We recommend the exponent expression to be at least 1024.
+The modulus of the Gaussian integer `alpha` that each SRVB private key depends on is higher than `2^(2*m+8*k)`. Where `k` and `m` are the key parameters explained above. We recommend the exponent expression to be at least 1024.
 
 #### IN A NUTSHELL
 
@@ -103,7 +103,7 @@ As a rough approximation, we suggest you to consider a domestic computer capable
 
 #### THE KEYS
 
-While the prime Gaussian integers, which SRVB keys depends on, are far more abundant and less studied than real integer primes, RSA relies on the latter, and yet, a prime as big as one having 1024 (binary) digits is considered to be a satisfactory one. Thus, a good benchmark would be to set the parameters k and m in such a way that `(2*m + 8*k)` is at least as 1024. Keep in mind that you can easily (and freely!) set them to much higher levels, and on the top of using a number that is much harder to guess, you are also [saving at least one euro](http://www.mappamathics.com/) each time you use it, not to mention the *human risk* involved in involving someone else (_ie_ the seller of this prime number) in your secrets (the very primes that are supposed to be known by you alone) and (not to mention risk of the remittance of this prime to be bugged). In other words, how to actually trust your key maker and your key sender? If you are able to _and with SRVB you are_ avoid this problem at all by making your own keys yourself!
+While SRVB depends on a very abundant class of numbers (those Gaussian integers given by `a+bi` with `a` and `b` coprime, [that have an asymtoptic ratio of 6/π² ~ 60.7%](http://mathoverflow.net/questions/97041/what-is-the-probability-that-two-numbers-are-relatively-prime)), RSA relies on real integer primes, [that get linearly scarse with the number of digits of the numbers](https://en.wikipedia.org/wiki/Prime_number_theorem), and yet, a prime as big as one having 1024 (binary) digits is considered to be a satisfactory one. Thus, a good benchmark would be to set the parameters k and m in such a way that `(2*m + 8*k)` is at least as 1024. Keep in mind that you can easily (and freely!) set them to much higher levels, and on the top of using a number that is much harder to guess, you are also [saving at least one euro](http://www.mappamathics.com/) each time you use it, not to mention the *human risk* involved in involving someone else (_ie_ the seller of this prime number) in your secrets (the very primes that are supposed to be known by you alone) and (not to mention risk of the remittance of this prime to be bugged). In other words, how to actually trust your key maker and your key sender? If you are able to _and with SRVB you are_ avoid this problem at all by making your own keys yourself!
 
 ### DEPENDENCIES:
 
