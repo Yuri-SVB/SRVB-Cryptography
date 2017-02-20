@@ -26,7 +26,7 @@ In each case, run the script `make.sh` of the respective directory, and run the 
 
 #### 1. TO GENERATE A PAIR OF SRVB KEYS...
 
-named `NAME_pri_key.srvb` and `NAME_pub_key.srvb` and whose blocks have `b` BITS (not ~~bytes~~!), of which, `p` BITS (same) are random padding, run the executable `key_gen_SRVB` (resulting from the script `key_gen/make.sh`) with the arguments, `k`, `m`, `p` and `NAME`, in this order, where `k` and `m` are any positive integer numbers whose product equals `b`, and `NAME`, is of course, the string you want to be the name of the keys' files. The typical command would look like this:
+named `NAME_pri_key.srvb` and `NAME_pub_key.srvb` and whose blocks have `b` BITS (not ~~bytes~~!), of which, `p` BITS (same) are random padding, run the executable `key_gen_SRVB` (resulting from the script `key_gen/make.sh`, that can be run from any directory) with the arguments, `k`, `m`, `p` and `NAME`, in this order, where `k` and `m` are any positive integer numbers whose product equals `b`, and `NAME`, is of course, the string you want to be the name of the keys' files. The typical command would look like this:
 
 `./key_gen_SRVB 32 512 8192 /path/to/John/Smith's/SRVB/John_Smith_2017_JAN`
 
@@ -90,7 +90,7 @@ The modulus of the prime Gaussian integer `alpha` that each SRVB private key dep
 * Set p to at least 128 to avoid 'known message attack' or;
 * Set p to a reasonable ratio of b ensure the bit balancing;
 
-If you are unsure about all that, and/or prefer to play safe, just take `k = 32, m = 512, p = 8192`. That is *very* safe in any reasonable (and some unreasonable) aspects. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you fully understand and take all the precautions mentioned in the PREAMBLE. Remember: _as well as in a chain, the strength of a cryptosystem equals the strength of its weakest components_.
+If you are unsure about all that, and/or prefer to play safe, just take `k = 32, m = 512, p = 8192`. This is *very* safe from any reasonable (and some unreasonable) point(s) of view. You can, of course, go beyond that, but, before you think about trying to improve any further, make sure you fully understand and take all the precautions mentioned in the PREAMBLE. Remember: _as well as in a chain, the strength of a cryptosystem equals the strength of its weakest components_.
 
 Above all, never forget that the PRIVATE key is produced and ALWAYS kept OFFLINE in a well secure media, and its correspondent PUBLIC key ALONE is to be published.
 
@@ -124,7 +124,7 @@ If your downloaded project does not contain a directory named 'ysvb-bug-proof', 
 
 in the project's directory. Alternatively, you also can get it downloaded all at once by entering
 	
-`git clone --recursive https://github.com/Yuri-SVB/ysvb-bug-proof`
+`git clone --recursive https://github.com/Yuri-SVB/SRVB-Cryptography.git`
 
 ### SAMPLES:
 

@@ -2,6 +2,7 @@
 #define __intgauss__
 
 #include <iostream>
+#include <sstream>
 #include "big_int.hpp"
 template<typename GID>
 class GaussInt;
@@ -18,6 +19,8 @@ public:
 		GID			   gi		   () const;
 		GID			   mod		   () const;
 		GID			   mod2		   () const;
+		inline	void rpp		   ();
+		inline	void ipp		   ();
 		GaussInt<GID>  conj		   () const;
 static	GaussInt<GID>  itopower	   (int exp);
 		GaussInt<GID>  operator +  () const;
@@ -43,12 +46,15 @@ static	GaussInt<GID>  itopower	   (int exp);
 		void  		   EuclidianDiv(const GaussInt<GID>& D, GaussInt<GID>& Q, GaussInt<GID>& R) const;	//Divisor, Quotient, Remainder
 		GaussInt<GID>  GCD		   (const GaussInt<GID>& target) const;
 		GaussInt<GID>  ModInv	   (const GaussInt<GID>& M) 	 const;
-		int			   is_prime	   (int reps) const;	//Miller-Rabin Test
 		bool		   operator == (const GaussInt<GID>& target) const;
 		bool		   operator != (const GaussInt<GID>& target) const;
+		bool 		   fit_for_alpha () const;
+		bool 		   fit_for_theta (const GaussInt<GID>& alpha) const;
+
 	std::string print_me() const {
-		std::string ret = gi.r + std::string(gi.i>=0?" +":" ") + gi.i + "*i";
-		return ret;
+		std::stringstream ret;
+		ret << r << std::string(i>=0?" +":" ") << i << "*i";
+		return ret.str();
 	}
 	friend std::istream& operator >> (std::istream& is, GaussInt<GID>& gi) {
 		GID	real, imag;

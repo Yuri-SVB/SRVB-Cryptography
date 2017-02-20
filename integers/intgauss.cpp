@@ -28,6 +28,16 @@ GID GaussInt<GID>::mod2() const {
 }
 
 template<typename GID>
+void  GaussInt<GID>::rpp() {
+	this->r++;
+}
+
+template<typename GID>
+void  GaussInt<GID>::ipp() {
+	this->i++;
+}
+
+template<typename GID>
 GaussInt<GID>  GaussInt<GID>::conj() const {
 	return GaussInt<GID>(this->r, -this->i);
 }
@@ -294,38 +304,56 @@ GaussInt<GID>  GaussInt<GID>::GCD (const GaussInt<GID>& target) const
 template<typename GID>
 GaussInt<GID>  GaussInt<GID>::ModInv(const GaussInt<GID>& M) const
 {
-	GaussInt<GID> B, q, d, r, dummy;	//Multiplicative Coefficient of *this (in Bezout's theorem), Holder, Dividend, divisor, remainder, one and zero
+	GaussInt<GID> y1, y2, y, D, d, q, r;	//y1, y2, Multiplicative Coefficient of *this (in Bezout's theorem), Dividend, divisor, quotient, remainder
+#if defined(__DBG__)	
+	GaussInt<GID> x1, x2, x;		//x1, x2, x, y1, y2 and y are variables to perform the algorithm by Donald Knuth to find the multiplicative coefficients (x and y) of Bezout's theorem.
+#endif
 	const GaussInt<GID> one(1, 0), mone(-1, 0), I(0, 1), mI(0, -1), zero(0, 0);
 	for (
-		M.EuclidianDiv(d = (*this%M), B, r)
+		y2 = GaussInt<GID>(0, 0),
+		y1 = GaussInt<GID>(1, 0),
+#if defined(__DBG__)
+		x1 = GaussInt<GID>(0, 0),
+		x2 = GaussInt<GID>(1, 0),
+#endif
+		D = M,
+		d = (*this%M)
 	;;
+		D = d,
 		d = r,
-		M.EuclidianDiv(d, q, r),
-		B *= q,
-		B.EuclidianDiv(M, dummy, B)
+#if defined(__DBG__)
+		x2 = x1,
+		x1 = x,
+#endif
+		y2 = y1,
+		y1 = y,
+		y %= M	//B.EuclidianDiv(M, dummy, B)
 	) {
+		D.EuclidianDiv(d, q, r);
+		y = y2 - y1*q;
+#if defined(__DBG__)
+		x = x2 - x1*q;
+		YSVB_CHECK_1(M*x + (*this%M)*y, ==, r, "")
+#endif
 		if (
 			r == one	|| 
 			r == I		|| 
 			r == mone	|| 
 			r == mI
 		) {
-			(B * *this).EuclidianDiv(M, q, dummy);
-			if (dummy.r == GID(1)) {
-				if (dummy.r == GID(1)) {}
-				if (dummy.r == GID(1)) {}
-				YSVB_CHECK_1(dummy, ==, one, "Only the four unities are expected to possibly result here.")
-				return B * one;
-			} else if (dummy.r == GID(-1)) {
-				if (dummy.r == GID(1)) {}
-				YSVB_CHECK_1(dummy, ==, mone, "Only the four unities are expected to possibly result here.")
-				return B * mone;
-			} else if (dummy.i == GID(1)) {
-				YSVB_CHECK_1(dummy, ==, I, "Only the four unities are expected to possibly result here.")
-				return B * mI;
+			y2 = (y**this) % M;
+			if (y2.r == GID(1)) {
+				YSVB_CHECK_1(y2, ==, one, "Only the four unities are expected to possibly result here.")
+				return y * one;
+			} else if (y2.r == GID(-1)) {
+				YSVB_CHECK_1(y2, ==, mone, "Only the four unities are expected to possibly result here.")
+				return y * mone;
+			} else if (y2.i == GID(1)) {
+				YSVB_CHECK_1(y2, ==, I, "Only the four unities are expected to possibly result here.")
+				return y * mI;
 			} else {
-				YSVB_CHECK_1(dummy, ==, mI, "Only the four unities are expected to possibly result here.")
-				return B * I;
+				YSVB_CHECK_1(y2, ==, mI, "Only the four unities are expected to possibly result here.")
+				return y * I;
 			}
 		} else if (r == zero) {
 			if ( d.mod2() == GID(1) ) {
@@ -334,31 +362,6 @@ GaussInt<GID>  GaussInt<GID>::ModInv(const GaussInt<GID>& M) const
 				return zero;				//error flag
 			}
 		}
-	}
-}
-
-template<typename GID>
-int GaussInt<GID>::is_prime(int reps) const
-{
-	t_int mymod2	= this->mod2();
-	int ret			= mymod2.is_prime(reps);
-	if (
-		(this->gr() == t_int(1) || this->gr() == t_int(-1))
-	&&
-		(this->gi() == t_int(1) || this->gi() == t_int(-1))
-	) {
-		//waste time with dummy operations
-		return 2;
-	}
-	mymod2 %= t_int(4);
-	if (mymod2 == t_int(1)) {
-		return (this->gr() != t_int(0) && this->gi() != t_int(0)) ?
-		ret : 0;
-	} else if (mymod2 == t_int(3)) {
-		return (this->gr() == t_int(0) || this->gi() == t_int(0)) ?
-		ret : 0;
-	} else {
-		return 0;
 	}
 }
 
@@ -372,6 +375,20 @@ template<typename GID>
 bool GaussInt<GID>::operator != (const GaussInt<GID>& target) const
 {
 	return !(*this == target);
+}
+
+template<typename GID>
+bool GaussInt<GID>::fit_for_alpha () const
+{
+	t_int gcd = (this->gr().GCD(this->gi()));
+	return (gcd == 1 || gcd == -1) ;
+}
+
+template<typename GID>
+bool GaussInt<GID>::fit_for_theta (const GaussInt<GID>& alpha) const
+{
+	GaussInt<GID> gcd = (this->GCD(alpha));
+	return gcd == GaussInt<GID>(1, 0) || gcd == GaussInt<GID>(-1,0) || gcd == GaussInt<GID>(0, 1) || gcd == GaussInt<GID>(0,-1);
 }
 
 #endif

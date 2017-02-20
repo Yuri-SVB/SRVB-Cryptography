@@ -23,14 +23,24 @@
 		#concerning the performance of a given program by each system, there end up being some degree of true randomness on this 
 		#option too
 
-g++ main.cpp								\
+
+
+
+KG_PATH="`dirname \"$0\"`"              # relative
+KG_PATH="`( cd \"$KG_PATH\" && pwd )`"  # absolutized and normalized
+if [ -z "$KG_PATH" ] ; then
+	echo "Failed to access the folder key_gen directory"
+	exit 1  # fail
+fi
+
+g++ $KG_PATH"/main.cpp"								\
  	-D __SHOW__								\
  	-D __PUT__								\
  	-lgmpxx -lgmp -lm						\
- 	-I ../random_input/std/3_layers/		\
- 	-I ../ysvb-bug-proof/					\
- 	-I ../integers/							\
- 	-I ../decrypt/							\
- 	-I ../encrypt/							\
+ 	-I $KG_PATH"/../random_input/std/3_layers/"		\
+ 	-I $KG_PATH"/../ysvb-bug-proof/"					\
+ 	-I $KG_PATH"/../integers/"							\
+ 	-I $KG_PATH"/../decrypt/"							\
+ 	-I $KG_PATH"/../encrypt/"							\
  	-std=gnu++11							\
- 	-o key_gen_SRVB
+ 	-o $KG_PATH"/key_gen_SRVB"

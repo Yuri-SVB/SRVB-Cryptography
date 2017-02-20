@@ -27,66 +27,7 @@ Pri_Key::Pri_Key(t_meta_int k, t_meta_int m, t_meta_int p, t_public_int alpha, t
 {}
 
 t_int Pri_Key::_get_rdtgiar_from_alpha(t_public_int alpha) {
-	t_int D, d, B, q, r, zero(0);
-	t_meta_int i;
-	if (alpha.gr()*alpha.gr() > alpha.gi()*alpha.gi()) {
-		YSVB_CHECK_1(
-			t_public_int(alpha.gr(), t_int(0)) % alpha, ==, t_public_int(t_int(0), t_int(-alpha.gi())),
-			"Mathematical consistency. These properties will be important to the decoding."
-		)
-		YSVB_CHECK_1(
-			t_public_int(t_int(alpha.mod2() - alpha.gr()), t_int(0)) % alpha, ==, t_public_int(t_int(0), t_int(+alpha.gi())),
-			"Mathematical consistency. These properties will be important to the decoding."
-		)
-		d = t_int(alpha.gi())>t_int(0)?t_int(alpha.gi()):t_int(-alpha.gi());
-		B = alpha.gr();
-	} else {
-		YSVB_CHECK_1(
-			t_public_int(alpha.gi(), t_int(0)) % alpha, ==, t_public_int(t_int(0), alpha.gr()),
-			"Mathematical consistency. These properties will be important to the decoding."
-		)
-		YSVB_CHECK_1(
-			t_public_int(t_int(alpha.mod2() - alpha.gi()), 0) % alpha, ==, t_public_int(0, t_int(-alpha.gr())),
-			"Mathematical consistency. These properties will be important to the decoding."
-		)
-		d = t_int(alpha.gr())>0?alpha.gr():t_int(-alpha.gr());
-		B = t_int(alpha.gi());
-	}
-	for (
-		D = alpha.mod2(),
-		q,
-		r = (D - (q = D/d)*d),
-		B *= q,
-		B %= D,
-		i = 0
-	;;
-		d = r,
-		r = (D - (q = D/d)*d),
-		B *= q,
-		B %= D,
-		i++
-	) {
-		if (r == t_int(1)) {
-			YSVB_CHECK_2(
-				t_public_int(B, 0) % alpha, ==, t_public_int(0, 1),
-				t_public_int(B, 0) % alpha, ==, t_public_int(0,-1),
-				"Mathematical Theorem being exploited"
-			)
-			YSVB_CHECK_2(
-				t_public_int(D-B, 0) % alpha, ==, t_public_int(0, 1),
-				t_public_int(D-B, 0) % alpha, ==, t_public_int(0,-1),
-				"Mathematical Theorem being exploited"
-			)
-			YSVB_CHECK_1(
-				t_public_int(B, 0) % alpha, ==, -t_public_int(D-B, 0) % alpha,
-				"Mathematical Theorem being exploited"
-			)
-			return	(t_public_int(B,0) % alpha) == t_public_int(0, 1)?
-				B-zero	:	D-B;
-		} else if (r == t_int(0)) {
-			return 0;		//error flag
-		}
-	}
+	return -alpha.gr()*(t_public_int(alpha.gi(),0).ModInv(t_public_int(alpha.mod2(),0))).gr()%alpha.mod2();
 }
 
 bool Pri_Key::is_valid() const {
@@ -99,21 +40,25 @@ bool Pri_Key::is_valid() const {
 	t_meta_int i;
 	t_int h;
 	ret &= _alpha.mod2() < _his[0]*_his[0];
-	// ret &= _alpha_2 < _his[0]*_his[0];
 	for (i = 0, h = 1; i < _m; ++i) {	h *= 4;	}	//ie, h >>= (1+_m*2)
 	ret &= (h * (_his[_k]) ) < (_alpha_2);
 	for (h = i = 0; i <= _k; i++) {
 		ret &= (h < _his[i]);
-	// YSVB_SHOW(ret)
 		YSVB_CHECK_2(h, <, _his[i], ret, ==, false, "Check of hyper growth of sequence")
 		h += _his[i];
 	}
-	ret &= _alpha.is_prime(15);		//Doesn't need to have a very high parameter because even if it gives a false positive, 
-	ret &= _alpha.GCD(_theta).mod2() == t_int(1);
+	ret &= _alpha.fit_for_alpha();
+	ret &= _theta.fit_for_theta(_alpha);
+	ret &= ((_theta*_theta_ima)%_alpha) == t_public_int(1,0);
+	ret &= t_public_int(_rdtgiar, 0)%_alpha == t_public_int(0, 1);
 
-	YSVB_CHECK_2(_alpha.is_prime(15), ==, 0, _alpha.GCD(_theta).mod2(), ==, t_int(1), "If alpha is prime, than GCD must be one.")
-	YSVB_CHECK_2(_alpha.is_prime(15), ==, 0, (_theta*_theta_ima)%_alpha, ==, t_public_int(1,0), "if alpha is prime, than it makes a ring.")
-	YSVB_CHECK_2((_theta*_theta_ima)%_alpha, !=, t_public_int(1,0), _alpha.is_prime(15), !=, 0, "if makes a ring, alpha is prime.")
+	YSVB_CHECK_2(_alpha.fit_for_alpha(), ==, false, t_public_int(_rdtgiar, 0)%_alpha, ==, t_public_int(0, 1), "If alpha's components a, b are coprime, thenthere must be real integer z whose remainder to alpha is i.")
+	YSVB_CHECK_2(_theta.fit_for_theta(_alpha), ==, false, ((_theta*_theta_ima)%_alpha), ==, t_public_int(1,0), "If theta is invertible mod alpha, then its inverse is well defined.")
+
+	YSVB_CHECK_2(_alpha.fit_for_alpha(), ==, 0, _alpha.GCD(_theta).mod2(), ==, t_int(1), "If alpha is prime, than GCD must be one.")
+	YSVB_CHECK_2(_alpha.fit_for_alpha(), ==, 0, (_theta*_theta_ima)%_alpha, ==, t_public_int(1,0), "if alpha is prime, theta has a well defined inverse.")
+	YSVB_CHECK_2((_theta*_theta_ima)%_alpha, !=, t_public_int(1,0), _alpha.GCD(_theta).mod2(), ==, t_int(1), "if theta has inverse, GCD(alpha, theta) is a uni.")
+
 	YSVB_CHECK_2(ret, ==, true, _alpha.gr(), !=, _alpha.gi(),	"That might not be necessary, but solves more easily the case of deciding upon the sign of the remainder bellow.")
 	YSVB_CHECK_2(ret, ==, true, _alpha.gr(), !=, t_int(0),		"Ring degenerates into real Integers. TODO: GIVE SECOND THOUGHTS ON THIS POSSIBILITY. IS IT LEGAL?")
 	YSVB_CHECK_2(ret, ==, true, _alpha.gi(), !=, t_int(0),		"Ring degenerates into real Integers. TODO: GIVE SECOND THOUGHTS ON THIS POSSIBILITY. IS IT LEGAL?")
@@ -156,7 +101,6 @@ bool Pri_Key::is_valid() const {
 }
 
 t_private_msg	Pri_Key::dt_to_his(const t_private_data& block) const {
-	// t_private_msg Pri_Key::encode(const t_private_data& block) const {
 	YSVB_CHECK_1(block.size(), ==, _k*_m, "Consistency of size of block.")
 	t_meta_int 	i, j;
 	t_int 	h;
@@ -199,7 +143,6 @@ t_private_msg Pri_Key::pub_to_his(const t_public_msg& pub_msg) const {
 }
 
 t_private_data Pri_Key::his_to_dt(t_private_msg node) const {
-	// YSVB_SHOW(node)
 	YSVB_CHECK_1(node.size(), ==, _k+1, "compatibility of key to message")
 	t_meta_int 	i, j;
 	t_int 	h;
@@ -224,7 +167,6 @@ t_private_data Pri_Key::his_to_dt(t_private_msg node) const {
 		) {
 			YSVB_CHECK_1(h, >, 0, "positivity of h")
 			h -= (	(	(ret[_k*i+j] = (h > node[j]))	?t_int(1):t_int(0))*node[j]	);	//There is a reason for the use of the ternary operator in stead of an if clause that would save a subtraction half of times: to void timing attack
-			// YSVB_SHOW(ret[_k*i+j])
 		}
 	}
 	#if defined(__DBG__)

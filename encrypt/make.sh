@@ -23,12 +23,19 @@
 		#concerning the performance of a given program by each system, there end up being some degree of true randomness on this 
 		#option too
 
-g++ main.cpp								\
+EC_PATH="`dirname \"$0\"`"              # relative
+EC_PATH="`( cd \"$EC_PATH\" && pwd )`"  # absolutized and normalized
+if [ -z "$EC_PATH" ] ; then
+	echo "Failed to access the folder key_gen directory"
+	exit 1  # fail
+fi
+
+g++ $EC_PATH"/main.cpp"								\
  	-D __SHOW__								\
  	-D __PUT__								\
  	-lgmpxx -lgmp -lm						\
- 	-I ../random_input/std/3_layers/		\
- 	-I ../ysvb-bug-proof/					\
- 	-I ../integers/							\
+ 	-I $EC_PATH"/../random_input/std/3_layers/"		\
+ 	-I $EC_PATH"/../ysvb-bug-proof/"					\
+ 	-I $EC_PATH"/../integers/"							\
  	-std=gnu++11							\
- 	-o encrypt_SRVB
+ 	-o $EC_PATH"/encrypt_SRVB"

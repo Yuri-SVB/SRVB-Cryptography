@@ -18,51 +18,54 @@ class Key_Gen {
 public:
 	void make_key(int k, int m, int p, std::string name) {
 		int i, j, expdbe = (m+4*k)/4 + 1;		//exponent (of two) divided by eight (number of bits of a byte) of the inferior quote of modulus of alpha
-		t_int real = 1, imag = 0, sob, msob;	//size of ball, maximum size of ball
+		t_int real, imag, sob, msob;	//size of ball, maximum size of ball
 		
-		t_public_int alpha_0, alpha_f;
+		t_public_int alpha, theta;
 		bool found;
 
+		YSVB_TIMED_PUT("Generating ALPHA...")
 		real = _ris.get(expdbe, 1);
 		imag = _ris.get(expdbe, 0);
 
-		alpha_0 = t_public_int(real, imag);
-
-		for (sob = 0, msob = 10000, found = false; sob < msob && !found; sob++) {
-			for (real = 0; real <= sob; real++) {
-				if ((alpha_0 + t_public_int(real, sob)).is_prime(15)) {
-					alpha_f = alpha_0 + t_public_int(real, sob);
+		for (msob = 0, found = false; !found; msob++) {
+			for (sob = 0, alpha = t_public_int(real, imag+msob); sob <= msob; sob++, alpha.rpp()) {
+				if ( alpha.fit_for_alpha() ) {
 					found = true;
 					break;
 				}
 			}
 			if (found) {	break;	}
-			for (imag = 0; imag < sob; imag++) {
-				if ((alpha_0 + t_public_int(sob, i)).is_prime(15)) {
-					alpha_f = alpha_0 + t_public_int(sob, i);
+			for (sob = 0, alpha = t_public_int(real+msob, imag); sob < msob; sob++, alpha.ipp()) {
+				if ( alpha.fit_for_alpha() ) {
 					found = true;
 					break;
 				}
 			}
 		}
-
 		if (_ris.get_int() & 1) {
-			alpha_f = alpha_f.conj();
+			alpha = alpha.conj();
 		}
-		alpha_f *= t_public_int::itopower(_ris.get_int() & 3);
+		alpha *= t_public_int::itopower(_ris.get_int() & 3);
+		YSVB_TIMED_SHOW(alpha)
 
-		real = _ris.get(2*expdbe, 0);
-		imag = _ris.get(2*expdbe, 0);
+		YSVB_TIMED_PUT("Generating THETA...")
+		for (found = false; !found; ) {
+			real = _ris.get(2*expdbe, 0);
+			imag = _ris.get(2*expdbe, 0);
+			theta = t_public_int(real, imag);
+			found = theta.fit_for_theta(alpha);
+		}
+		theta %= alpha;
+		YSVB_TIMED_SHOW(theta)
 
-		alpha_0 = t_public_int(real, imag);
-
+		YSVB_TIMED_PUT("Generating HYPER INCREASING SEQUENCE...")
 		t_private_msg his(k+1);
 
-		for (expdbe = 0, msob = alpha_f.mod(); msob > 0; expdbe++, msob /= 2) {}
+		for (expdbe = 0, msob = alpha.mod(); msob > 0; expdbe++, msob /= 2) {}
 		expdbe /= 8;
 		expdbe++;
 
-		his[0] = alpha_f.mod();
+		his[0] = alpha.mod();
 
 		for (msob = i = 0; i < k; i++) {
 			his[i] = (msob += (_ris.get(expdbe,0) + 1));
@@ -75,9 +78,9 @@ public:
 
 		if (_pk) {	delete _pk;	}
 		if (name == "") {
-			_pk = new Pri_Key(k, m, p, alpha_f, alpha_0, his);
+			_pk = new Pri_Key(k, m, p, alpha, theta, his);
 		} else {
-			_pk = new Pri_Key(k, m, p, alpha_f, alpha_0, his, name);			
+			_pk = new Pri_Key(k, m, p, alpha, theta, his, name);			
 		}
 	}
 
@@ -85,7 +88,6 @@ public:
 		if (_pk) {
 			std::ofstream out(pri_kfn);
 			if (out.good()) {
-				// YSVB_CHECK_1(_pk->is_valid(), ==, true, "Key must be valid.")
 				if (!_pk->is_valid()) {
 					YSVB_TIMED_PUT("WARNIG: KEY SEEMS NOT TO BE VALID!")
 				}
@@ -100,7 +102,6 @@ public:
 		if (_pk) {
 			std::ofstream out(pub_kfn);
 			if (out.good()) {
-				// YSVB_CHECK_1(_pk->is_valid(), ==, true, "Key must be valid.")
 				if (!_pk->is_valid()) {
 					YSVB_TIMED_PUT("WARNIG: KEY SEEMS NOT TO BE VALID!")
 				}
