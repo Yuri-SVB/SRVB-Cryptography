@@ -310,11 +310,11 @@ GaussInt<GID>  GaussInt<GID>::ModInv(const GaussInt<GID>& M) const
 #endif
 	const GaussInt<GID> one(1, 0), mone(-1, 0), I(0, 1), mI(0, -1), zero(0, 0);
 	for (
-		y2 = GaussInt<GID>(0, 0),
-		y1 = GaussInt<GID>(1, 0),
+		y2 = zero,
+		y1 = one,
 #if defined(__DBG__)
-		x1 = GaussInt<GID>(0, 0),
-		x2 = GaussInt<GID>(1, 0),
+		x1 = zero,
+		x2 = one,
 #endif
 		D = M,
 		d = (*this%M)

@@ -48,9 +48,6 @@ public:
 			;
 			D = d,		d = r,		r = (D % d)
 		) {
-			//YSVB_TIMED_SHOW(D)
-			//YSVB_TIMED_SHOW(d)
-			//YSVB_TIMED_SHOW(r)
 			if (r == zero) {
 				return d;
 			}
